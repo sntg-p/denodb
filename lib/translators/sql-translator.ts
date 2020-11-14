@@ -136,12 +136,14 @@ export class SQLTranslator extends Translator {
             for (
               const [field, fieldType] of Object.entries(query.fields!)
             ) {
+              const value = fieldDefaults[field];
+
               addFieldToSchema(
                 table,
                 {
                   name: field,
                   type: fieldType,
-                  defaultValue: fieldDefaults[field],
+                  defaultValue: typeof value === "function" ? value() : value,
                 },
               );
             }
